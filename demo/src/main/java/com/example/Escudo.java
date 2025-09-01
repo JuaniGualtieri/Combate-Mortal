@@ -7,14 +7,18 @@ public class Escudo implements IDefensa {
         this.porcentaje = Math.min(1.0, Math.max(0.0, porcentaje));
     }
 
-    public double getPorcentaje() { return porcentaje; }
+    public double getPorcentaje() { 
+        return porcentaje; 
+    }
+
     public void setPorcentaje(double porcentaje) {
         this.porcentaje = Math.min(1.0, Math.max(0.0, porcentaje));
     }
 
     @Override
     public int aplicar(int danioEntrante) {
+        // Calcula el daño reducido y redondea al entero más cercano
         double neto = danioEntrante * (1.0 - porcentaje);
-        return (int)Math.max(0, Math.round(neto));
+        return (int)Math.max(0, Math.round(neto)); // <- Cambio clave
     }
 }
