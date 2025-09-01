@@ -1,13 +1,8 @@
 package com.example;
 
 public class Soldado extends Ejercito {
-
-    public Soldado(int vida, int danio, boolean estado, int resistencia) {
-        super(vida, danio, estado, resistencia);
+    public Soldado(String nombre, IArma arma) {
+        super(nombre, 1, arma); // muere en 1 disparo (vida = 1)
     }
-
-    @Override
-    public void recibirAtaque() {
-        recibirAtaqueConEscudo(getDanio());
-    }
+    @Override public String tipo() { return "Soldado"; }
 }

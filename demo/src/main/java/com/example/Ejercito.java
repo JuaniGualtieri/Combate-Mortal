@@ -1,99 +1,55 @@
 package com.example;
 
-public class Ejercito {
+public abstract class Ejercito {
+    private String nombre;
     private int vida;
-    private int danio;
-    private boolean estado;
-    private int resistencia;
-    private Escudo escudo; 
+    private boolean vivo;
+    private IArma arma;       // composición: posee un arma
+    private IDefensa defensa; // opcional (escudo u otra)
 
-    public Ejercito(int vida, int danio,boolean estado,int resistencia) {
-        this.vida = vida;
-        this.danio = danio; 
-        this.estado = estado; 
+    protected Ejercito(String nombre, int vidaInicial, IArma arma) {
+        this.nombre = nombre;
+        this.vida = Math.max(0, vidaInicial);
+        this.vivo = vidaInicial > 0;
+        this.arma = arma; // puede ser null (disparo no hace daño)
     }
 
-    public void setEstado(boolean estado){
-        this.estado = estado;
+    // ---- Encapsulamiento
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public int getVida() { return vida; }
+    protected void setVida(int vida) {
+        this.vida = Math.max(0, vida);
+        this.vivo = this.vida > 0;
+    }
+    public boolean estaVivo() { return vivo; }
+
+    public IArma getArma() { return arma; }
+    public void setArma(IArma arma) { this.arma = arma; }
+
+    public IDefensa getDefensa() { return defensa; }
+    public void setDefensa(IDefensa defensa) { this.defensa = defensa; }
+
+    // ---- Disparo (sobrecarga)
+    public void disparar(Ejercito objetivo) {
+        int danio = (arma != null) ? arma.usar() : 0;
+        objetivo.recibirDisparo(danio);
     }
 
-    public boolean getEstado(){
-        return estado;
+    public void disparar(Ejercito objetivo, int potenciaExtra) {
+        int base = (arma != null) ? arma.usar() : 0;
+        int danio = Math.max(0, base + Math.max(0, potenciaExtra));
+        objetivo.recibirDisparo(danio);
     }
 
-    public void setVida(int vida) {
-        this.vida = vida;
+    // ---- Recibir daño (usa defensa si existe)
+    public void recibirDisparo(int danioEntrante) {
+        if (!vivo) return;
+        int neto = (defensa != null) ? defensa.aplicar(danioEntrante) : danioEntrante;
+        setVida(getVida() - neto);
     }
 
-    public int getVida() {
-        return vida;
-    }	
-
-    public void setDanio(int danio){
-        this.setDanio(danio);
-    }
-
-    public int getDanio(){
-        return danio; 
-    }
-
-    public int getResistencia(){
-        return resistencia;
-    }
-
-    public void setResistencia(int resistencia){
-        this.resistencia = resistencia;
-    }
-
-    public Escudo getEscudo() {
-        return escudo;
-    }
-
-    public void setEscudo(Escudo escudo) {
-        this.escudo = escudo;
-    }
-
-    public void recibirAtaqueConEscudo(int dano) {
-        double danoRecibido = dano;
-        if (escudo != null) {
-            danoRecibido *= (1 - escudo.getPorcentaje());
-        }
-        setVida((int) Math.max(getVida() - danoRecibido, 0));
-        if (getVida() <= 0) {
-            setEstado(false);
-        }
-    }
-
-    public void recibirAtaque() {
-        recibirAtaqueConEscudo(this.danio);
-    }
-
-    public void dispara(Ejercito objetivo) {
-        objetivo.recibirAtaqueConEscudo(this.danio);
-    }
-
-    public boolean estoyVivo(){
-        if (getVida() == 0){
-            return false;
-        } else {
-            return true; 
-        }
-    }
-
-    public void chuckAtaque(Ejercito ChuckNorris){
-        setVida(getVida() - 0);
-    }
-
-    public void aplicarResistencia(Escudo es1){
-        this.escudo = es1; 
-    }
-
-  
-
-
-
- 
-   
-
+    // ---- Método abstracto (cumple rúbrica)
+    public abstract String tipo();
 }
 
