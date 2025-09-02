@@ -1,7 +1,9 @@
 package com.example;
 
+// Interfaz que define el contrato de cualquier arma
 public interface IArma {
-    int usar();                 // devuelve el daño del disparo y descuenta 1 munición
+    // Dispara: devuelve el daño y descuenta una munición
+    int usar();
     int getMuniciones();
     void recargar(int cantidad);
     String nombre();

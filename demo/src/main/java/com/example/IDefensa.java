@@ -1,5 +1,7 @@
 package com.example;
 
+// Interfaz para defensas (ejemplo: Escudo)
 public interface IDefensa {
-    int aplicar(int danioEntrante); // devuelve el daño luego de aplicar la defensa
+    // Método que recibe un daño entrante y devuelve el daño neto tras aplicar la defensa
+    int aplicar(int danioEntrante);
 }
