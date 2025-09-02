@@ -176,4 +176,29 @@ public class GuerraTests {
         assertFalse(tanque.estaVivo());
         assertEquals(0, tanque.getVida());
     }
+
+    @Test
+    public void tanque_con_escudo_90_por_ciento_no_recibe_dano_de_rifle() {
+        // Tanque con vida 2
+        Tanque tanque = new Tanque("TanqueBlindado", new ArmaRifle(1, 5));
+        // Escudo que reduce 90% del daño
+        tanque.setDefensa(new Escudo(0.9));
+
+        // Soldado con rifle de daño 1
+        Soldado soldado = new Soldado("S1", new ArmaRifle(1, 5));
+
+        // El soldado dispara 3 veces al tanque
+        soldado.disparar(tanque);
+        soldado.disparar(tanque);
+        soldado.disparar(tanque);
+
+        // Como cada disparo tiene daño 1, y el escudo reduce 90%,
+        // el daño neto es: 1 * (1 - 0.9) = 0.1 → round = 0
+        // Por lo tanto el tanque no recibe daño.
+
+        // Vida inicial del tanque era 2, debe seguir en 2
+        assertEquals(2, tanque.getVida());
+        // Y debe seguir vivo
+        assertTrue(tanque.estaVivo());
+    }
 }
