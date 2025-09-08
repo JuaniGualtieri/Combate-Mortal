@@ -22,10 +22,10 @@ public abstract class Ejercito {
 
     public int getVida() { return vida; }
 
-    // Setter protegido para que solo se use dentro de la jerarquía
+    // Setter protegido para que solo se use dentro de la jerarquía (doble encapsulamiento)
     protected void setVida(int vida) {
-        this.vida = Math.max(0, vida);
-        this.vivo = this.vida > 0;
+        this.vida = Math.max(0, vida);// controla que nunca sea negativa
+        this.vivo = this.vida > 0;// controla automaticamente el estado
     }
 
     public boolean estaVivo() { return vivo; }

@@ -129,11 +129,13 @@ public class GuerraTests {
         Tanque t1 = new Tanque("T1", new ArmaRifle(1, 1));
         Tanque t2 = new Tanque("T2", new ArmaRifle(1, 1));
         Tanque t3 = new Tanque("T3", new ArmaRifle(1, 1));
+       
 
         // Cada tanque dispara al buque
         t1.disparar(buque);
         t2.disparar(buque);
         t3.disparar(buque);
+       
 
         // Buque debe morir después de 3 disparos
         assertFalse(buque.estaVivo());
@@ -193,7 +195,7 @@ public class GuerraTests {
         soldado.disparar(tanque);
 
         // Como cada disparo tiene daño 1, y el escudo reduce 90%,
-        // el daño neto es: 1 * (1 - 0.9) = 0.1 → round = 0
+        // el daño neto es: 1 * (1 - 0.9) = 0.1  round = 0
         // Por lo tanto el tanque no recibe daño.
 
         // Vida inicial del tanque era 2, debe seguir en 2
@@ -201,4 +203,23 @@ public class GuerraTests {
         // Y debe seguir vivo
         assertTrue(tanque.estaVivo());
     }
+
+    @Test
+public void zombie_nunca_muere() {
+    Zombie zombie = new Zombie("Zombie1", new ArmaRifle(1, 10));
+    Soldado soldado = new Soldado("Soldado1", new ArmaRifle(1, 10));
+
+    // Disparamos varias veces al zombie
+    soldado.disparar(zombie);
+    soldado.disparar(zombie);
+    soldado.disparar(zombie);
+    soldado.disparar(zombie);
+
+    // Verificamos que siga vivo
+    assertTrue(zombie.estaVivo());
+    // La vida nunca baja de 1
+    assertEquals(1, zombie.getVida());
+}
+
+
 }
