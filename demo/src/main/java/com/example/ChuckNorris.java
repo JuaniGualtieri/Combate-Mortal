@@ -9,8 +9,8 @@ public class ChuckNorris extends Ejercito {
 
     // Chuck Norris nunca recibe daño
     @Override 
-    public void recibirDisparo(int danioEntrante) {
-        // Método vacío a propósito
+    public void recibirDisparo(double danioEntrante) {
+        // Método vacío a propósito, Chuck nunca pierde vida
     }
 
     @Override 
@@ -18,3 +18,4 @@ public class ChuckNorris extends Ejercito {
         return "ChuckNorris"; 
     }
 }
+

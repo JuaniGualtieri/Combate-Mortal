@@ -3,16 +3,16 @@ package com.example;
 // Clase abstracta que representa cualquier tipo de ejército/unidad
 public abstract class Ejercito {
     private String nombre;   
-    private int vida;        
+    private double vida;        // ahora double para manejar fracciones de daño
     private boolean vivo;   
     private IArma arma;      
     private IDefensa defensa; 
 
     // Constructor base: inicializa nombre, vida y arma
-    protected Ejercito(String nombre, int vidaInicial, IArma arma) {
+    protected Ejercito(String nombre, double vidaInicial, IArma arma) {
         this.nombre = nombre;
-        this.vida = Math.max(0, vidaInicial);
-        this.vivo = vidaInicial > 0;
+        this.vida = Math.max(0.0, vidaInicial);
+        this.vivo = vidaInicial > 0.0;
         this.arma = arma; // puede ser null (sin arma)
     }
 
@@ -20,12 +20,12 @@ public abstract class Ejercito {
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public int getVida() { return vida; }
+    public double getVida() { return vida; }
 
     // Setter protegido para que solo se use dentro de la jerarquía (doble encapsulamiento)
-    protected void setVida(int vida) {
-        this.vida = Math.max(0, vida);// controla que nunca sea negativa
-        this.vivo = this.vida > 0;// controla automaticamente el estado
+    protected void setVida(double vida) {
+        this.vida = Math.max(0.0, vida);// controla que nunca sea negativa
+        this.vivo = this.vida > 0.0;// controla automáticamente el estado
     }
 
     public boolean estaVivo() { return vivo; }
@@ -41,7 +41,7 @@ public abstract class Ejercito {
     // Disparo normal
     public void disparar(Ejercito objetivo) {
         int danio = (arma != null) ? arma.usar() : 0;
-        objetivo.recibirDisparo(danio);
+        objetivo.recibirDisparo(danio); // int se amplía a double automáticamente
     }
 
     // Disparo con potencia extra (sobrecarga del método anterior)
@@ -52,10 +52,10 @@ public abstract class Ejercito {
     }
 
     //  Recibir daño 
-    public void recibirDisparo(int danioEntrante) {
+    public void recibirDisparo(double danioEntrante) {
         if (!vivo) return; // si ya está muerto no recibe más daño
         // Si tiene defensa, se aplica; si no, se toma el daño tal cual
-        int neto = (defensa != null) ? defensa.aplicar(danioEntrante) : danioEntrante;
+        double neto = (defensa != null) ? defensa.aplicar(danioEntrante) : danioEntrante;
         setVida(getVida() - neto);
     }
 

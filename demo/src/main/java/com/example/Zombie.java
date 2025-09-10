@@ -1,5 +1,6 @@
 package com.example;
 
+// Subclase de Ejercito
 public class Zombie extends Ejercito {
 
     public Zombie(String nombre, IArma arma) {
@@ -8,7 +9,7 @@ public class Zombie extends Ejercito {
     }
 
     @Override
-    public void recibirDisparo(int danioEntrante) {
+    public void recibirDisparo(double danioEntrante) {
         // Se resta vida, pero nunca baja de 1; así siempre está vivo.
         setVida(Math.max(1, getVida() - danioEntrante));
     }
@@ -18,3 +19,4 @@ public class Zombie extends Ejercito {
         return "Zombie";
     }
 }
+
